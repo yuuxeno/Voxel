@@ -13,6 +13,7 @@ namespace VoxelEngine
 		const int numberOfMiniChunk = 8;
 		const int miniChunkYLength = yLength / numberOfMiniChunk;
 
+		readonly Point3D<int> chunkPoint;
 		readonly Vector3 basePoint;
 
 		public Bounds Bounds { get; private set; }
@@ -25,17 +26,16 @@ namespace VoxelEngine
 
 		public string ID { get; private set; }
 
-		public static ChunkModel CreateFromChunkIndex (int indexX, int indexY, int indexZ)
+		public ChunkModel (int indexX, int indexY, int indexZ)
 		{
+			chunkPoint = new Point3D<int> (indexX, indexY, indexZ);
+
 			float centerPointX = xLength * indexX;
 			float centerPointY = yLength * indexY;
 			float centerPointZ = zLength * indexZ;
 
-			return new ChunkModel (new Vector3 (centerPointX, centerPointY, centerPointZ));
-		}
+			Vector3 centerPoint = new Vector3 (centerPointX, centerPointY, centerPointZ);
 
-		public ChunkModel (Vector3 centerPoint)
-		{
 			Bounds = new Bounds (centerPoint, new Vector3(BlockModel.size.x * xLength, BlockModel.size.y * yLength, BlockModel.size.z * zLength));
 			miniChunkModels = new List<MiniChunkModel> ();
 
